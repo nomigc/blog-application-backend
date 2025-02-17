@@ -9,3 +9,4 @@ coverage
 build/
 uploads
 pnpm-lock.yaml
+.env

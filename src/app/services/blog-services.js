@@ -49,5 +49,21 @@ export class BlogServices {
     }
     return successfulResponse('Blog found successfully!', blog);
   }
+
+  async deleteBlog(id) {
+    const blog = await Blogs.findByIdAndDelete(id);
+    if (!blog) {
+      return invalidResponse('Blog not found!');
+    }
+    return successfulResponse('Blog deleted successfully!', blog);
+  }
+
+  async getAll() {
+    const blogs = await Blogs.find();
+    if (blogs.length === 0) {
+      return invalidResponse('Blogs not found!');
+    }
+    return successfulResponse('Blogs found successfully!', blogs);
+  }
 }
-export const { createBlog, editBlog, getSingle } = new BlogServices();
+export const { createBlog, editBlog, getSingle, deleteBlog, getAll } = new BlogServices();

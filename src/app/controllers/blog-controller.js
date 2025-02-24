@@ -1,4 +1,4 @@
-import { createBlog, editBlog } from "../services";
+import { createBlog, deleteBlog, editBlog, getAll, getSingle } from "../services";
 
 class BlogController {
   async create(req, res) {
@@ -12,7 +12,17 @@ class BlogController {
   }
 
   async getSingle(req, res) {
-    const { status, json } = await editBlog(req.params);
+    const { status, json } = await getSingle(req.params);
+    return res.status(status).json(json);
+  }
+
+  async delete(req, res) {
+    const { status, json } = await deleteBlog(req.params);
+    return res.status(status).json(json);
+  }
+
+  async getAll(req, res) {
+    const { status, json } = await getAll(req.params);
     return res.status(status).json(json);
   }
 }

@@ -10,7 +10,7 @@ export default function getBlogModel({ Schema, model, models }) {
       type: String,
       require: true
     },
-    image: {
+    media: {
       type: String,
     },
     user: {

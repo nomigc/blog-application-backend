@@ -7,9 +7,9 @@ class AuthController {
     const { email, password } = req.body;
     const { user } = req;
 
-    const isPasswordValid = await verifyHash(password, password);
+    const isPasswordValid = await verifyHash(password, user.password);
     if (!isPasswordValid) {
-      return res
+      return res 
         .status(400)
         .json(invalidResponse('Email or password is incorrect'));
     }

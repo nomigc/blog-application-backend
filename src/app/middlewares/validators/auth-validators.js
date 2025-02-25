@@ -11,11 +11,11 @@ export const authValidators = {
       .normalizeEmail()
       .custom(async (email, { req }) => {
         const isUser = await Users.findOne({ email });
-        if (isUser) {
+        if (!isUser) {
           throw new Error('Email or Password not found!');
         } else {
           req.user = isUser;
-          return value;
+          return true;
         }
       })
       .escape(),

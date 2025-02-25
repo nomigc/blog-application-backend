@@ -4,7 +4,7 @@ import compression from 'compression';
 import cors from 'cors';
 import logger from 'morgan';
 
-import { errorHandler } from '@/app/middlewares/handlers';
+import { checkAuth, errorHandler } from '@/app/middlewares/handlers';
 import { envMode } from '@/config';
 import { AuthRouter, BaseRouter } from '@/routes';
 
@@ -23,8 +23,8 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(logger(logMode));
 
 // ** all routes gathers here...
-app.use('/v1/auth', AuthRouter);
-// app.use('/v1/api', BaseRouter);
+app.use('/api/v1/auth', AuthRouter);
+app.use('/api/v1', checkAuth, BaseRouter);
 
 // ** Alway keep on the end
 app.use(errorHandler);

@@ -1,5 +1,6 @@
 import AuthRouter from './auth-routes';
+import BlogRouter from './blog-route';
 
-const BaseRouter = [];
+const BaseRouter = [BlogRouter];
 
 export { AuthRouter, BaseRouter };

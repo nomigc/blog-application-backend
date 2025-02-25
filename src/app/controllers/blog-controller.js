@@ -1,30 +1,30 @@
-import { createBlog, deleteBlog, editBlog, getAll, getSingle } from "../services";
-
+import { createBlogService, deleteBlogService, editBlogService, getAllService, getSingleService } from "../services";
 class BlogController {
-  async create(req, res) {
-    const { status, json } = await createBlog(req.body, req.files);
+  async createBlog(req, res) {
+    const { id } = req.user;
+    const { status, json } = await createBlogService(req.body, req.files, id);
     return res.status(status).json(json);
   }
 
-  async edit(req, res) {
-    const { status, json } = await editBlog(req.body, req.params, req.files);
+  async editBlog(req, res) {
+    const { status, json } = await editBlogService(req.body, req.params, req.files);
     return res.status(status).json(json);
   }
 
-  async getSingle(req, res) {
-    const { status, json } = await getSingle(req.params);
+  async getSingleBlog(req, res) {
+    const { status, json } = await getSingleService(req.params);
     return res.status(status).json(json);
   }
 
-  async delete(req, res) {
-    const { status, json } = await deleteBlog(req.params);
+  async deleteBlog(req, res) {
+    const { status, json } = await deleteBlogService(req.params);
     return res.status(status).json(json);
   }
 
-  async getAll(req, res) {
-    const { status, json } = await getAll(req.params);
+  async getAllBlog(req, res) {
+    const { status, json } = await getAllService(req.params);
     return res.status(status).json(json);
   }
 }
 
-export const { create, edit } = new BlogController();
+export const { createBlog, editBlog, getSingleBlog, deleteBlog, getAllBlog } = new BlogController();

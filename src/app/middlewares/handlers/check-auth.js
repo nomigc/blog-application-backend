@@ -17,14 +17,15 @@ export async function checkAuth(req, res, next) {
       .send(invalidResponse('Token was not provided', null));
   }
   try {
-    const { id, email, fullName } = verifyToken(token);
+    const { _, payload } = verifyToken(token);
+
+    const { id, email } = payload;
     req.user = {
       id,
       email,
-      fullName,
     };
 
-    const user = await Users.findOne({ where: { id: payload.id } });
+    const user = await Users.findById(id);
     if (!user)
       return res
         .status(401)

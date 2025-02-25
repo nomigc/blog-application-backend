@@ -6,7 +6,7 @@ import { envSaltRounds, envToken, envTokenDuration } from '@/config';
 class TokenServices {
   createHash = async (text = '') => {
     try {
-      const saltRounds = genSaltSync(envSaltRounds);
+      const saltRounds = genSaltSync(parseInt(envSaltRounds));
       const hashedText = await hash(text, saltRounds);
       return hashedText;
     } catch (error) {
@@ -15,7 +15,7 @@ class TokenServices {
     }
   };
 
-  verifyHash = async (hash = '', text = '') => {
+  verifyHash = async (text = '', hash = '') => {
     try {
       const isVerified = await compare(text, hash);
       return isVerified;

@@ -7,17 +7,17 @@ class BlogController {
   }
 
   async editBlog(req, res) {
-    const { status, json } = await editBlogService(req.body, req.params, req.files);
+    const { status, json } = await editBlogService(req.body, req.params.id, req.files);
     return res.status(status).json(json);
   }
 
   async getSingleBlog(req, res) {
-    const { status, json } = await getSingleService(req.params);
+    const { status, json } = await getSingleService(req.params.id);
     return res.status(status).json(json);
   }
 
   async deleteBlog(req, res) {
-    const { status, json } = await deleteBlogService(req.params);
+    const { status, json } = await deleteBlogService(req.params.id);
     return res.status(status).json(json);
   }
 

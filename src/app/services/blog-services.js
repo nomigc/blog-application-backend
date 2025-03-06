@@ -8,68 +8,101 @@ export class BlogServices {
     }
 
     const { title, description } = body;
-    if (!title || !description || !user) {
+    if (!title || !description) {
       return invalidResponse('All fields are required!');
     }
 
-    let media;
-    if (files) {
-      media = files.media[0].filename;
+    let media = [];
+    if (files && files.length > 0) {
+      media = files.map((file) => file.filename)
     }
 
     const blog = await Blogs.create({ title, description, media, user: id });
     if (!blog) {
-      return invalidResponse('Blog creation failed!');
+      return {
+        status: 400,
+        json: invalidResponse('Blog creation failed!')
+      }
     }
 
-    return successfulResponse('Blog created successfully!', blog);
+    return {
+      status: 201,
+      json: successfulResponse('Blog created successfully!', blog)
+    }
   }
 
-  async editBlogService(body, params, files) {
-    const { id } = params;
+  async editBlogService(body, id, files) {
     if (!id) {
-      return invalidResponse('Blog id is required!');
+      return {
+        status: 404,
+        json: invalidResponse('Blog id is required!')
+      }
     }
 
     const { title, description, user } = body;
     let media;
-    if (files) {
-      media = files.media[0].filename;
+    if (files && files.length > 0) {
+      media = files.map((file) => file.filename)
     }
+
     const blog = await Blogs.findByIdAndUpdate(
       id,
       { title, description, media, user },
       { new: true }
     )
     if (!blog) {
-      return invalidResponse('Blog update failed!');
+      return {
+        status: 404,
+        json: invalidResponse('Blog not found!')
+      }
     }
 
-    return successfulResponse('Blog updated successfully!', blog);
+    return {
+      status: 200,
+      json: successfulResponse('Blog edited successfully!', blog)
+    }
   }
 
   async getSingleService(id) {
     const blog = await Blogs.findById(id);
     if (!blog) {
-      return invalidResponse('Blog not found!');
+      return {
+        status: 404,
+        json: invalidResponse('Blog not found!')
+      }
     }
-    return successfulResponse('Blog found successfully!', blog);
+    return {
+      status: 200,
+      json: successfulResponse('Blog found successfully!', blog)
+    }
   }
 
   async deleteBlogService(id) {
     const blog = await Blogs.findByIdAndDelete(id);
     if (!blog) {
-      return invalidResponse('Blog not found!');
+      return {
+        status: 404,
+        json: invalidResponse('Blog not found!')
+      }
     }
-    return successfulResponse('Blog deleted successfully!', blog);
+    return {
+      status: 200,
+      json: successfulResponse('Blog deleted successfully!', blog)
+    }
   }
 
   async getAllService() {
     const blogs = await Blogs.find();
     if (blogs.length === 0) {
-      return invalidResponse('Blogs not found!');
+      return {
+        status: 404,
+        json: invalidResponse('Blogs not found!')
+      }
     }
-    return successfulResponse('Blogs found successfully!', blogs);
+    return {
+      status: 200,
+      json: successfulResponse('Blogs found successfully!', blogs)
+    }
   }
 }
 export const { createBlogService, editBlogService, getSingleService, deleteBlogService, getAllService } = new BlogServices();

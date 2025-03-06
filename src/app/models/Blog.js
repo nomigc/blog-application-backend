@@ -11,7 +11,7 @@ export default function getBlogModel({ Schema, model, models }) {
       require: true
     },
     media: {
-      type: String,
+      type: [String],
     },
     user: {
       type: Schema.Types.ObjectId,
